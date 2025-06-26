@@ -1,13 +1,29 @@
 import { Lock, User2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { use, useEffect, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/authStore";
 
 function LoginComponent() {
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const { login, isLoggingin, isLoggedin, user } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    login(formData);
+  };
+
+  useEffect(() => {
+    if (isLoggedin) navigate("/verify");
+  }, [user, isLoggedin]);
+
   return (
     <div className="w-full min-h-screen flex flex-col justify-center items-center p-4 bg-gray-100">
       <div className="flex flex-col gap-6 w-full max-w-md justify-center items-center shadow-2xl rounded-lg p-6 bg-white">
         <h1 className="font-bold text-2xl text-center">Welcome to DevMate</h1>
 
-        <form className="flex flex-col gap-6 w-full">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
           {/* Email */}
           <div className="flex flex-col gap-2 w-full ">
             <label htmlFor="email" className="text-sm">
@@ -20,6 +36,10 @@ function LoginComponent() {
                 type="email"
                 name="email"
                 placeholder="Enter your email"
+                value={formData.email}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
             </div>
           </div>
@@ -36,6 +56,10 @@ function LoginComponent() {
                 type="password"
                 name="password"
                 placeholder="Enter your password"
+                value={formData.password}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
               />
             </div>
           </div>
@@ -45,8 +69,9 @@ function LoginComponent() {
             <button
               type="submit"
               className="w-full sm:w-1/2 bg-gradient-to-br from-indigo-500 to-purple-700 text-white py-2 rounded-md hover:from-pink-500 hover:to-red-500 transition-colors duration-200 focus:scale-95"
+              disabled={isLoggingin}
             >
-              Login
+              {isLoggingin ? "Loading..." : "Login"}
             </button>
           </div>
         </form>

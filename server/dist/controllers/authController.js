@@ -43,7 +43,7 @@ const loginController = async (req, res) => {
         const { email, password } = req.body;
         if (!email || !password) {
             return res.status(400).json({
-                mesasge: "All field are required"
+                message: "All field are required"
             });
         }
         if (password.length <= 6) {

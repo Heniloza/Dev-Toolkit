@@ -46,7 +46,7 @@ export const loginController = async(req:Request,res:Response)=>{
 
         if(!email || !password) {
             return res.status(400).json({
-                mesasge:"All field are required"
+                message:"All field are required"
             })
         }
 
