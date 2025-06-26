@@ -43,5 +43,7 @@ export const useAuthStore = create<AuthState>((set)=>({
         }finally{
             set({isLoggingin:false})
         }
-    }
+    },
+
+   
 }))
