@@ -21,7 +21,9 @@ function LoginComponent() {
   return (
     <div className="w-full min-h-screen flex flex-col justify-center items-center p-4 bg-gray-100">
       <div className="flex flex-col gap-6 w-full max-w-md justify-center items-center shadow-2xl rounded-lg p-6 bg-white">
-        <h1 className="font-bold text-2xl text-center">Welcome to DevMate</h1>
+        <h1 className="font-bold text-2xl text-center">
+          Welcome back to DevMate
+        </h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
           {/* Email */}

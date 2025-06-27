@@ -14,7 +14,7 @@ export const generateOtpController = async (req: Request, res: Response) => {
           message: "UserId is required"
         });
     }
-
+    
     const user = await USER.findById(userId)
     if(!user){
         return res.status(404).json({
@@ -22,7 +22,7 @@ export const generateOtpController = async (req: Request, res: Response) => {
         });
     }
 
-await OTPTOKEN.deleteMany({ userId: String(userId) });
+    await OTPTOKEN.deleteMany({ userId: String(userId) });
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = new Date(Date.now() +  5 * 60 * 1000) //For 5 Mins
@@ -59,7 +59,7 @@ export const verifyOtpController = async (req: Request, res: Response) => {
       });
     }
 
-    const otpToken = await OTPTOKEN.findOne({ userId, verified: false });
+    const otpToken = await OTPTOKEN.findOne({ userId});
     if(!otpToken){
       return res.status(404).json({
         message: "OTP not found or Already verified"
@@ -90,16 +90,15 @@ export const verifyOtpController = async (req: Request, res: Response) => {
         return res.status(404).json({ message: "User not found" });
       }
     
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
-    res.cookie("token", token, {
+   
+      res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
-    return res.status(200).json({
+    }).status(200).json({
       message: "OTP verified successfully",
       user,
     });

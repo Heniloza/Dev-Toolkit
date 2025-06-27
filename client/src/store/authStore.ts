@@ -16,7 +16,10 @@ interface AuthState {
   isLoading: boolean;
   isLoggedin:boolean;
   isLoggingin:boolean;
+  isSiggingin:boolean;
   login: (data: { email: string; password: string }) => Promise<void>;
+  checkAuth:()=>void;
+  signup:(data:{username:string,email:string,password:string})=>Promise<void>
 }
 
 
@@ -28,13 +31,13 @@ export const useAuthStore = create<AuthState>((set)=>({
     isLoading:false,
     isLoggingin:false,
     isLoggedin:false,
+    isSiggingin:false,
 
     login:async(data:any)=>{
         set({isLoggingin:true})
         try {
             const res = await axiosInstance.post("/auth/login",data)
-            console.log(res);
-            set({user:res.data})
+            set({user:res.data.user})
             set({isLoggedin:true})
         } catch (error:any) {
             console.log(error.message);
@@ -45,5 +48,29 @@ export const useAuthStore = create<AuthState>((set)=>({
         }
     },
 
+    checkAuth: async () => {
+    try {
+      const res = await axiosInstance.get("/auth/check");
+      set({ user: res.data.user, isAuthenticated: true });
+    } catch (error) {
+      set({ user: null, isAuthenticated: false });
+    }
+  },
+
+  signup:async(data:any)=>{
+    set({isSiggingin:true})
+    try {
+      const res = await axiosInstance.post("/auth/signup",data)
+      set({user:res.data.user})
+      set({isLoggedin:true})
+      console.log(res.data);
+      
+    } catch (error:any) {
+      console.log(error.message);
+      toast.error(error.response.data.message)
+    }finally{
+      set({isSiggingin:false})
+    }
+  }
    
 }))

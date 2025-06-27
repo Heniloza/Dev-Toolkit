@@ -53,7 +53,7 @@ const verifyOtpController = async (req, res) => {
                 message: "All field are required"
             });
         }
-        const otpToken = await optTokenModel_1.default.findOne({ userId, verified: false });
+        const otpToken = await optTokenModel_1.default.findOne({ userId });
         if (!otpToken) {
             return res.status(404).json({
                 message: "OTP not found or Already verified"
@@ -81,11 +81,10 @@ const verifyOtpController = async (req, res) => {
         const token = jsonwebtoken_1.default.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
         res.cookie("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: false,
             sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000,
-        });
-        return res.status(200).json({
+        }).status(200).json({
             message: "OTP verified successfully",
             user,
         });
