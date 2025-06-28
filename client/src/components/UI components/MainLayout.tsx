@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 
 function MainLayout() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white text-black  transition-colors duration-300">
       {/* Top Navbar */}
       <Navbar />
 

@@ -1,59 +1,65 @@
-import { LogOut, LucideHome, Moon, Sun, User2 } from "lucide-react";
+import { LogOut, LucideHome, User2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
-import { useTheme } from "../../ThemeProvider";
 
 function Navbar() {
   const { logout } = useAuthStore();
-  const { setTheme } = useTheme();
-  const handleLogout = async () => {
-    logout();
-  };
+  const handleLogout = async () => logout();
+
   return (
-    <div className="w-full h-[100px] flex items-center justify-between bg-white shadow-md">
-      <div className="flex gap-2 px-4">
+    <div className="w-full h-[70px] flex items-center justify-between bg-white shadow-md transition-all px-4">
+      {/* Logo */}
+      <div className="flex items-center gap-2">
         <img src="/logo.webp" alt="Icon" className="size-8" />
-        <h3 className="font-bold text-2xl bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
+        <h3 className="font-bold text-lg sm:text-2xl bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
           DevMate
         </h3>
       </div>
-      <div className="flex justify-center items-center gap-2 px-4">
-        {/* {Toggle Dark/light mode} */}
-        <div>
-          <Sun
-            onClick={() => setTheme("light")}
-            className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
-          />
-          <Moon
-            onClick={() => setTheme("dark")}
-            className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
-          />
-          <span className="sr-only">Toggle theme</span>
-        </div>
 
-        {/* {Home} */}
-        <div className="flex justify-center items-center gap-2 font-bold  h-[40px] rounded-sm transition-all duration-200 w-[120px] hover:bg-black hover:text-white">
-          <Link to="/" className="flex gap-2">
+      {/* Nav Icons */}
+      <div className="flex items-center gap-2 sm:gap-4">
+        {/* Home */}
+        <div className="relative group">
+          <Link
+            to="/"
+            className="flex items-center justify-center px-2 sm:justify-start gap-2 font-bold h-[40px] w-[40px] sm:w-[120px] rounded-sm transition-all duration-200 hover:bg-black hover:text-white"
+          >
             <LucideHome />
-            <h2 className="cursor-pointer">Home</h2>
+            <span className="hidden sm:inline">Home</span>
           </Link>
+          <span className="absolute bottom-[-30px] left-1/2 -translate-x-1/2 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition sm:hidden pointer-events-none">
+            Home
+          </span>
         </div>
 
-        {/* {Profile} */}
-        <div className="flex justify-center items-center gap-2 font-bold  h-[40px] rounded-sm transition-all duration-200 w-[120px] hover:bg-black hover:text-white">
-          <Link to="/profile" className="flex gap-2">
+        {/* Profile */}
+        <div className="relative group">
+          <Link
+            to="/profile"
+            className="flex items-center justify-center px-2 sm:justify-start gap-2 font-bold h-[40px] w-[40px] sm:w-[120px] rounded-sm transition-all duration-200 hover:bg-black hover:text-white"
+          >
             <User2 />
-            <h2 className="cursor-pointer">Profile</h2>
+            <span className="hidden sm:inline">Profile</span>
           </Link>
+          {/* Tooltip for mobile */}
+          <span className="absolute bottom-[-30px] left-1/2 -translate-x-1/2 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition sm:hidden pointer-events-none">
+            Profile
+          </span>
         </div>
 
-        {/* {Logout} */}
-        <div
-          className="flex justify-center items-center gap-2 font-bold  h-[40px] rounded-sm transition-all duration-200 w-[120px] hover:bg-black hover:text-white cursor-pointer"
-          onClick={handleLogout}
-        >
-          <LogOut />
-          <h2>Logout</h2>
+        {/* Logout */}
+        <div className="relative group cursor-pointer">
+          <div
+            onClick={handleLogout}
+            className="flex items-center justify-center px-2 sm:justify-start gap-2 font-bold h-[40px] w-[40px] sm:w-[120px] rounded-sm transition-all duration-200 hover:bg-black hover:text-white"
+          >
+            <LogOut />
+            <span className="hidden sm:inline">Logout</span>
+          </div>
+          {/* Tooltip for mobile */}
+          <span className="absolute bottom-[-30px] left-1/2 -translate-x-1/2 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition sm:hidden pointer-events-none">
+            Logout
+          </span>
         </div>
       </div>
     </div>

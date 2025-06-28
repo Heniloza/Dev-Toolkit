@@ -10,7 +10,10 @@ import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import MainLayout from "./components/UI components/MainLayout";
-import { ThemeProvider } from "./ThemeProvider";
+import Snippets from "./pages/Snippets";
+import ColorPalette from "./pages/ColorPalette";
+import JsonFormater from "./pages/JsonFormater";
+import Regex from "./pages/Regex";
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -31,44 +34,64 @@ function App() {
 
   return (
     <div>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <BrowserRouter>
-          <Routes>
-            <Route path="*" element={<NotFound />} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="*" element={<NotFound />} />
+          <Route
+            path="/login"
+            element={!isAuthenticated ? <Login /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/signup"
+            element={!isAuthenticated ? <Signup /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/verify"
+            element={
+              !isAuthenticated && isLoggedin ? (
+                <VerifyOtp />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+
+          <Route element={<MainLayout />}>
             <Route
-              path="/login"
-              element={!isAuthenticated ? <Login /> : <Navigate to="/" />}
+              path="/"
+              element={isAuthenticated ? <Home /> : <Navigate to="/login" />}
             />
             <Route
-              path="/signup"
-              element={!isAuthenticated ? <Signup /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/verify"
+              path="/dashboard"
               element={
-                !isAuthenticated && isLoggedin ? (
-                  <VerifyOtp />
-                ) : (
-                  <Navigate to="/" />
-                )
+                isAuthenticated ? <Dashboard /> : <Navigate to={"/login"} />
               }
             />
-
-            <Route element={<MainLayout />}>
-              <Route
-                path="/"
-                element={isAuthenticated ? <Home /> : <Navigate to="/login" />}
-              />
-              <Route
-                path="/dashboard"
-                element={
-                  isAuthenticated ? <Dashboard /> : <Navigate to={"/login"} />
-                }
-              />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
+            <Route
+              path="/snippets"
+              element={
+                isAuthenticated ? <Snippets /> : <Navigate to={"/login"} />
+              }
+            />
+            <Route
+              path="/palette"
+              element={
+                isAuthenticated ? <ColorPalette /> : <Navigate to={"/login"} />
+              }
+            />
+            <Route
+              path="/json-formater"
+              element={
+                isAuthenticated ? <JsonFormater /> : <Navigate to={"/login"} />
+              }
+            />
+            <Route
+              path="/regex"
+              element={isAuthenticated ? <Regex /> : <Navigate to={"/login"} />}
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
       <Toaster />
     </div>
   );
