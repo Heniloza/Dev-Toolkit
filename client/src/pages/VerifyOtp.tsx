@@ -7,7 +7,7 @@ import OtpInput from "../components/UI components/OtpInput";
 import toast from "react-hot-toast";
 
 function VerifyOtp() {
-  const { user } = useAuthStore();
+  const { user, setIsLoggedin } = useAuthStore();
   const [isOtpSended, setIsOtpSended] = useState(false);
   const [otp, setOtp] = useState<number[]>([]);
   const navigate = useNavigate();
@@ -27,12 +27,26 @@ function VerifyOtp() {
     setOtp(digits);
     console.log(digits);
   };
-  console.log(user);
 
   return (
     <div className="w-screen min-h-screen flex flex-col lg:flex-row bg-gray-100 overflow-hidden">
-      <div className="hidden lg:flex w-1/2 min-h-screen items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700 text-white">
-        <h1 className="text-3xl font-semibold">Welcome to DevMate</h1>
+      <div className="hidden  lg:flex w-1/2 min-h-screen items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700 text-white">
+        <div className="flex flex-col items-center justify-center text-center px-8 max-w-md space-y-6">
+          <img
+            src="/welcome_ui.svg"
+            alt="Welcome Illustration"
+            className="w-72 h-auto"
+          />
+
+          <h1 className="text-4xl font-bold leading-snug">
+            Welcome to <span className="text-pink-300">DevMate</span>
+          </h1>
+
+          <p className="text-lg text-white/80">
+            All your development tools in one place. Let's build something
+            amazing.
+          </p>
+        </div>
       </div>
 
       <div className="w-full sm:h-screen sm:w-screen lg:w-1/2 flex flex-col items-center justify-center p-4">
@@ -54,7 +68,11 @@ function VerifyOtp() {
                 Send OTP
               </button>
               <div>
-                <Link to="/login" className="flex gap-2 mt-4">
+                <Link
+                  onClick={() => setIsLoggedin(false)}
+                  to="/login"
+                  className="flex gap-2 mt-4"
+                >
                   <ArrowBigLeft />
                   <p>Back to Login</p>
                 </Link>

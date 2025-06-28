@@ -22,11 +22,27 @@ export default function Signup() {
     if (isLoggedin) navigate("/verify");
   }, [user, isLoggedin]);
   return (
-    <div className="w-screen min-h-screen flex flex-col lg:flex-row bg-gray-100 overflow-hidden">
+    <div className="w-full min-h-screen flex flex-col lg:flex-row bg-gray-100 overflow-hidden">
       {/* Left side - hidden on small, styled properly on large */}
-      <div className="hidden lg:flex w-1/2 min-h-screen items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700 text-white">
-        {/* Left Content */}
-        <h1 className="text-3xl font-semibold">Welcome to DevMate</h1>
+      <div className="hidden  lg:flex w-1/2 min-h-screen items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700 text-white">
+        <div className="flex flex-col items-center justify-center text-center px-8 max-w-md space-y-6">
+          <img
+            src="/welcome_ui.svg"
+            alt="Welcome Illustration"
+            className="w-72 h-auto"
+          />
+
+          {/* Heading */}
+          <h1 className="text-4xl font-bold leading-snug">
+            Welcome to <span className="text-pink-300">DevMate</span>
+          </h1>
+
+          {/* Subtext */}
+          <p className="text-lg text-white/80">
+            All your development tools in one place. Let's build something
+            amazing.
+          </p>
+        </div>
       </div>
 
       {/* Right side */}

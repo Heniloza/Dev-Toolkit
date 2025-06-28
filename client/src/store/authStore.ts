@@ -22,6 +22,7 @@ interface AuthState {
   
   setUser: (user: User | null) => void;
   setIsAuthenticated: (status: boolean) => void;
+  setIsLoggedin:(status:boolean) => void;
   login: (data: { email: string; password: string }) => Promise<void>;
   checkAuth:()=>void;
   signup:(data:{username:string,email:string,password:string})=>Promise<void>
@@ -41,6 +42,7 @@ export const useAuthStore = create<AuthState>((set)=>({
     isCheckingAuth:true,
     setUser: (user) => set({ user }),
     setIsAuthenticated: (status) => set({ isAuthenticated: status }),
+    setIsLoggedin:(status:boolean) => set({isLoggedin:status}),
 
     login:async(data:any)=>{
         set({isLoggingin:true})
