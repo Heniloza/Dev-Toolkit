@@ -2,6 +2,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 
+
+
 export const axiosInstance = axios.create({
  baseURL: "http://localhost:3000/api",
 withCredentials: true,
@@ -23,8 +25,8 @@ export const verifyOtp = async(userId:string | undefined,otp:Number[])=>{
     userId,
     otp: otp.join(""), 
   });
-  toast.success("Logged in Successfully")
-  return res.data;
+    return res.data;
+  
   } catch (error:any) {
     console.log(error.message);
     toast.error(error.response.data.message);

@@ -8,15 +8,25 @@ import NotFound from "./pages/NotFound";
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
+import { Loader } from "lucide-react";
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const checkAuth = useAuthStore((state) => state.checkAuth);
-  const isLoggedin = useAuthStore((state) => state.isLoggedin);
+  const { isLoggedin, isCheckingAuth, user } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+  if (isCheckingAuth && !user) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader className="size-20 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div>
       <BrowserRouter>

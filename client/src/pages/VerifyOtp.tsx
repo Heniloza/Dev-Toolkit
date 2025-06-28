@@ -2,13 +2,25 @@ import { useState } from "react";
 import { useAuthStore } from "../store/authStore";
 import { sendOtp, verifyOtp } from "../lib/api";
 import { ArrowBigLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import OtpInput from "../components/UI/OtpInput";
+import toast from "react-hot-toast";
 
 function VerifyOtp() {
   const { user } = useAuthStore();
   const [isOtpSended, setIsOtpSended] = useState(false);
   const [otp, setOtp] = useState<number[]>([]);
+  const navigate = useNavigate();
+
+  const handleVerifyOtp = async () => {
+    const res = await verifyOtp(user?._id, otp);
+    if (res?.success) {
+      useAuthStore.getState().setUser(res.user);
+      useAuthStore.getState().setIsAuthenticated(true);
+      toast.success("Logged in successfully.");
+      navigate("/");
+    }
+  };
 
   const onOtpSubmit = (otpString: string) => {
     const digits = otpString.split("").map((digit) => Number(digit));
@@ -63,7 +75,7 @@ function VerifyOtp() {
               </div>
               <button
                 className="w-full mt-8 bg-gradient-to-br from-indigo-500 to-purple-700 text-white py-2 rounded-md hover:from-pink-500 hover:to-red-500 transition-colors duration-200 focus:scale-95"
-                onClick={() => verifyOtp(user?._id, otp)}
+                onClick={handleVerifyOtp}
               >
                 Verify
               </button>

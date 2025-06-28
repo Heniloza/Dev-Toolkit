@@ -101,6 +101,7 @@ export const verifyOtpController = async (req: Request, res: Response) => {
     }).status(200).json({
       message: "OTP verified successfully",
       user,
+      success:true
     });
 
 
