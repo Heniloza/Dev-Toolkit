@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <div className="w-[250px] bg-white-500 bg-gray-800 text-white shadow-2xl rounded-sm flex flex-col gap-4 py-4">
+    <div className="w-[250px] hidden bg-white-500 bg-gray-800 text-white shadow-2xl rounded-sm md:flex flex-col gap-4 py-4">
       <div className="ml-6">
         <h2 className="text-2xl font-bold">Your Toolkit</h2>
       </div>

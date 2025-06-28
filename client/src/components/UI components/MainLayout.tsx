@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import MobileSidebar from "./MobileSidebar";
 
 function MainLayout() {
   return (
@@ -12,6 +13,7 @@ function MainLayout() {
       <div className="flex flex-1">
         {/* Sidebar on the left */}
         <Sidebar />
+        <MobileSidebar />
 
         {/* Main Content */}
         <main className="p-4 flex-1">
