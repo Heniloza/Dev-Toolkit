@@ -14,6 +14,7 @@ import Snippets from "./pages/Snippets";
 import ColorPalette from "./pages/ColorPalette";
 import JsonFormater from "./pages/JsonFormater";
 import Regex from "./pages/Regex";
+import Profile from "./pages/Profile";
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -65,6 +66,12 @@ function App() {
               path="/dashboard"
               element={
                 isAuthenticated ? <Dashboard /> : <Navigate to={"/login"} />
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                isAuthenticated ? <Profile /> : <Navigate to={"/login"} />
               }
             />
             <Route

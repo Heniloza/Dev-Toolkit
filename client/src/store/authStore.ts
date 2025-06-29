@@ -18,6 +18,7 @@ interface AuthState {
   isLoggingin:boolean;
   isSiggingin:boolean;
   isCheckingAuth:boolean,
+  isUpdatinProfile:boolean,
 
   
   setUser: (user: User | null) => void;
@@ -27,6 +28,7 @@ interface AuthState {
   checkAuth:()=>void;
   signup:(data:{username:string,email:string,password:string})=>Promise<void>
   logout:()=>Promise<void>
+  updateProfile:(data:{username:string,email:string,password:string,profileImage:string})=>Promise<void>
 }
 
 
@@ -40,6 +42,8 @@ export const useAuthStore = create<AuthState>((set)=>({
     isLoggedin:false,
     isSiggingin:false,
     isCheckingAuth:true,
+    isUpdatinProfile:false,
+
     setUser: (user) => set({ user }),
     setIsAuthenticated: (status) => set({ isAuthenticated: status }),
     setIsLoggedin:(status:boolean) => set({isLoggedin:status}),
@@ -97,8 +101,20 @@ export const useAuthStore = create<AuthState>((set)=>({
       console.log(error.message);
       toast.error(error.response.data.message)
     }
+  },
+
+  updateProfile:async(data:any)=>{
+    set({isUpdatinProfile:true})
+    try {
+      const res = await axiosInstance.post("/auth/profile",data)
+      set({user:res?.data.user})
+      toast.success("Profile uodated successfully.")
+    } catch (error:any) {
+      console.log(error.message,"Error in updating profile");
+      toast.error(error.response.data.message)
+    }finally{
+      set({isUpdatinProfile:false})
+    }
   }
 
-
-   
 }))

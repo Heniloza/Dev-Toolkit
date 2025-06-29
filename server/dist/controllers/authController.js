@@ -3,9 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkAuth = exports.logoutController = exports.loginController = exports.signupController = void 0;
+exports.checkAuth = exports.updateProfile = exports.logoutController = exports.loginController = exports.signupController = void 0;
 const userModel_1 = __importDefault(require("../models/userModel"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const cloudinary_1 = __importDefault(require("../utils/cloudinary"));
 const signupController = async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -82,7 +83,31 @@ const logoutController = async (req, res) => {
     }
 };
 exports.logoutController = logoutController;
-//TODO:Update profile 
+const updateProfile = async (req, res) => {
+    try {
+        const { profileImage } = req.body;
+        const userId = req.user._id;
+        if (!profileImage || !userId) {
+            return res.status().json({
+                message: "Image and userid are required"
+            });
+        }
+        const uploadResponse = await cloudinary_1.default.uploader.upload(profileImage);
+        const updateUser = await userModel_1.default.findByIdAndUpdate(userId, {
+            profileImage: uploadResponse.secure_url
+        }, { new: true });
+        res.status(200).json({
+            message: "Profile picture updated",
+            updateUser
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Error in updating profile."
+        });
+    }
+};
+exports.updateProfile = updateProfile;
 const checkAuth = async (req, res) => {
     try {
         res.status(200).json(req.user);

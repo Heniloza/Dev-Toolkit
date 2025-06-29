@@ -12,6 +12,7 @@ router.post("/signup", authController_1.signupController);
 router.post("/login", authController_1.loginController);
 router.post("/logout", authController_1.logoutController);
 router.get("/check", authMiddleware_1.authMiddleware, authController_1.checkAuth);
+router.post("/update-profile", authMiddleware_1.authMiddleware, authController_1.updateProfile);
 //OTP Routes
 router.post("/generate", otpControllers_1.generateOtpController);
 router.post("/verify", otpControllers_1.verifyOtpController);

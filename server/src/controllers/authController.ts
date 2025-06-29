@@ -1,6 +1,7 @@
 import {Request,Response} from "express";
 import USER from "../models/userModel";
 import bcrypt from "bcryptjs";
+import cloudinary from "../utils/cloudinary";
 
 export const signupController = async(req:Request,res:Response)=>{
    try {
@@ -84,8 +85,39 @@ export const logoutController = async (req: Request, res: Response) => {
     });
   }
 };
+ 
+export const updateProfile = async (req: Request, res: Response) => {
+  try {
+    const {profileImage} = req.body;
+    const userId= req.user._id
 
-//TODO:Update profile 
+    if(!profileImage || !userId){
+      return res.status().json({
+        message: "Image and userid are required"
+      });
+    }
+
+    const uploadResponse = await cloudinary.uploader.upload(profileImage)
+
+    const updateUser = await USER.findByIdAndUpdate(
+      userId,
+      {
+        profileImage:uploadResponse.secure_url
+      },
+      {new:true}
+    )
+
+    res.status(200).json({
+      message:"Profile picture updated",
+      updateUser
+    })
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Error in updating profile."
+    });
+  }
+};
 
 export const checkAuth = async (req: Request, res: Response) => {
   try {
