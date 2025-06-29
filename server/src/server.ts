@@ -4,6 +4,7 @@ dotenv.config();
 import { connectDb } from "./config/db";
 import cookieParser from "cookie-parser"
 import authRoutes from "./routes/authRoutes"
+import snippetsRoutes from "./routes/snippetsRoute"
 import cors from "cors"
 const app = express();
 const PORT = 3000;
@@ -23,6 +24,7 @@ app.use(cookieParser())
 
 //Routes
 app.use("/api/auth",authRoutes)
+app.use("/aoi/snippets",snippetsRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
