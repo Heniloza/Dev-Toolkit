@@ -8,6 +8,7 @@ interface User {
   email: string;
   mfaEnabled: boolean;
   profileImage?: string;
+  createdAt: string;
 }
 
 interface AuthState {
@@ -28,7 +29,7 @@ interface AuthState {
   checkAuth:()=>void;
   signup:(data:{username:string,email:string,password:string})=>Promise<void>
   logout:()=>Promise<void>
-  updateProfile:(data:{username:string,email:string,password:string,profileImage:string})=>Promise<void>
+  updateProfile:(data:{profileImage:string})=>Promise<void>
 }
 
 
@@ -106,11 +107,11 @@ export const useAuthStore = create<AuthState>((set)=>({
   updateProfile:async(data:any)=>{
     set({isUpdatinProfile:true})
     try {
-      const res = await axiosInstance.post("/auth/profile",data)
+      const res = await axiosInstance.post("/auth/update-profile",data)
       set({user:res?.data.user})
       toast.success("Profile uodated successfully.")
     } catch (error:any) {
-      console.log(error.message,"Error in updating profile");
+      console.log(error,"Error in updating profile");
       toast.error(error.response.data.message)
     }finally{
       set({isUpdatinProfile:false})
