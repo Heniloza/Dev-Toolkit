@@ -24,7 +24,7 @@ app.use(cookieParser())
 
 //Routes
 app.use("/api/auth",authRoutes)
-app.use("/aoi/snippets",snippetsRoutes)
+app.use("/api/snippets",snippetsRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

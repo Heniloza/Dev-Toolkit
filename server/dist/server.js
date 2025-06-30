@@ -24,7 +24,7 @@ app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 //Routes
 app.use("/api/auth", authRoutes_1.default);
-app.use("/aoi/snippets", snippetsRoute_1.default);
+app.use("/api/snippets", snippetsRoute_1.default);
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

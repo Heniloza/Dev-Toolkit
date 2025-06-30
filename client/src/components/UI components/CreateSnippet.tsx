@@ -1,5 +1,7 @@
 import { X } from "lucide-react";
 import React, { useState, type ChangeEvent, type ReactNode } from "react";
+import toast from "react-hot-toast";
+import { useSnippetStore } from "../../store/snippetsStore";
 
 function CreateSnippet({
   setIsModelOpen,
@@ -11,8 +13,20 @@ function CreateSnippet({
     code: "",
     language: "",
   });
+  const { addSnippet } = useSnippetStore();
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    if (
+      snippetData.title === "" ||
+      snippetData.code === "" ||
+      snippetData.language === ""
+    ) {
+      toast.error("All field are required");
+      return;
+    }
+    addSnippet(snippetData);
+    setsnippetData({ title: "", code: "", language: "" });
+  };
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-40">
       {/* Modal Container */}
@@ -76,10 +90,11 @@ function CreateSnippet({
 
           {/* Submit Button */}
           <button
-            type="submit"
             className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-2 rounded-md font-semibold hover:opacity-90 transition"
             disabled={
-              !snippetData.code || !snippetData.title || !snippetData.language
+              snippetData.title === "" ||
+              snippetData.code === "" ||
+              snippetData.language === ""
             }
           >
             Create Snippet

@@ -8,13 +8,14 @@ interface Snippet{
     title:string;
     code:string;
     language:string;
-    catedAt:string;
+    createdAt:string;
 }
 
 interface SnippetStore {
     snippets:Snippet[];
     isCreatingSnippet:boolean;
     isFetchingSnippets:boolean;
+
     fetchSnippets:()=> Promise<void>;
     addSnippet:(data:Omit<Snippet,"_id" | "createdAt">)=>Promise<void>;
     deleteSnippet:(id:string)=>Promise<void>;
@@ -29,7 +30,7 @@ export const useSnippetStore = create<SnippetStore>((set)=>({
         set({isFetchingSnippets:true})
          try {
             const res = await axiosInstance.get("/snippets/fetch");
-             set({ snippets: res.data });
+             set({ snippets: res.data.data });
         } catch (error:any) {
             console.log(error,"Error in fetching snippet");
         }finally{
@@ -41,11 +42,12 @@ export const useSnippetStore = create<SnippetStore>((set)=>({
         set({isCreatingSnippet:true})
          try {
             const res = await axiosInstance.post("/snippets/create",data)
+            console.log("Creating snippet...", res.data);
+            toast.success("Snippet created!"); 
             set({snippets:res.data})
-            toast.success("Snippet created!")
         } catch (error:any) {
             console.log(error,"Error in creating snippet");
-              toast.error(error.response.data.message)
+            toast.error(error.response.data.message)
         }finally{
             set({isCreatingSnippet:false})
         }

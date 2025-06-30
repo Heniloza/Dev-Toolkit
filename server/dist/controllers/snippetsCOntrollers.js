@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteSnippets = exports.fetchSnippets = exports.createSnippet = void 0;
-const snippets_1 = __importDefault(require("../models/snippets"));
+const snippetsModel_1 = __importDefault(require("../models/snippetsModel"));
 const createSnippet = async (req, res) => {
     try {
         const { title, code, language } = req.body;
@@ -13,7 +13,7 @@ const createSnippet = async (req, res) => {
                 message: "All fiels are required"
             });
         }
-        const snippet = await snippets_1.default.create({
+        const snippet = await snippetsModel_1.default.create({
             title,
             code,
             language,
@@ -33,7 +33,7 @@ const createSnippet = async (req, res) => {
 exports.createSnippet = createSnippet;
 const fetchSnippets = async (req, res) => {
     try {
-        const snippets = await snippets_1.default.find({ user: req.user._id });
+        const snippets = await snippetsModel_1.default.find({ user: req.user._id });
         return res.status(200).json({
             message: "User posts fetched successfully",
             data: snippets
@@ -54,13 +54,13 @@ const deleteSnippets = async (req, res) => {
                 message: "Snippet ID is required to delete snippet"
             });
         }
-        const snippet = await snippets_1.default.findById(snippetId);
+        const snippet = await snippetsModel_1.default.findById(snippetId);
         if (!snippet) {
             return res.status(404).json({
                 message: "Snippet not found"
             });
         }
-        await snippets_1.default.findByIdAndDelete(snippetId);
+        await snippetsModel_1.default.findByIdAndDelete(snippetId);
         res.status(200).json({ message: "Snippet deleted successfully" });
     }
     catch (error) {
@@ -70,4 +70,4 @@ const deleteSnippets = async (req, res) => {
     }
 };
 exports.deleteSnippets = deleteSnippets;
-//# sourceMappingURL=snippetsCOntrollers.js.map
+//# sourceMappingURL=snippetsControllers.js.map
