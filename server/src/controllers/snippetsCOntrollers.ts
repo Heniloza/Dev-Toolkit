@@ -1,5 +1,5 @@
 import {Request, Response } from 'express';
-import SNIPPETS from '../models/snippets';
+import SNIPPETS from '../models/snippetsModel';
 
 
 export const createSnippet = async (req: Request, res: Response) => {

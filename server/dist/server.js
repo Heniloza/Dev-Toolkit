@@ -9,6 +9,7 @@ dotenv_1.default.config();
 const db_1 = require("./config/db");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
+const snippetsRoute_1 = __importDefault(require("./routes/snippetsRoute"));
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 const PORT = 3000;
@@ -23,6 +24,7 @@ app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 //Routes
 app.use("/api/auth", authRoutes_1.default);
+app.use("/aoi/snippets", snippetsRoute_1.default);
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

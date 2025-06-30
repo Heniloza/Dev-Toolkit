@@ -32,7 +32,6 @@ export const useSnippetStore = create<SnippetStore>((set)=>({
              set({ snippets: res.data });
         } catch (error:any) {
             console.log(error,"Error in fetching snippet");
-              toast.error(error.response.data.message)
         }finally{
             set({isFetchingSnippets:false})
         }
