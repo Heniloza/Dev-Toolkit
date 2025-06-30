@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import React, { useState, type ChangeEvent, type ReactNode } from "react";
+import { useState, type ChangeEvent } from "react";
 import toast from "react-hot-toast";
 import { useSnippetStore } from "../../store/snippetsStore";
 
@@ -24,6 +24,7 @@ function CreateSnippet({
       toast.error("All field are required");
       return;
     }
+
     addSnippet(snippetData);
     setsnippetData({ title: "", code: "", language: "" });
   };
@@ -40,7 +41,7 @@ function CreateSnippet({
         </button>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-4">
+        <form className="flex flex-col gap-6 mt-4">
           <h2 className="text-2xl font-bold text-center">Create Snippet</h2>
 
           {/* Title */}
@@ -91,6 +92,7 @@ function CreateSnippet({
           {/* Submit Button */}
           <button
             className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-2 rounded-md font-semibold hover:opacity-90 transition"
+            onClick={handleSubmit}
             disabled={
               snippetData.title === "" ||
               snippetData.code === "" ||

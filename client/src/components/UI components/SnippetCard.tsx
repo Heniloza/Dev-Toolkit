@@ -6,8 +6,9 @@ interface SnippetProps {
   title: string;
   code: string;
   language: string;
-  createdAt: string;
-  onDelete: () => void;
+  createdAt?: string;
+  onDelete?: () => void;
+  showDelete?: boolean;
 }
 
 function SnippetCard({
@@ -16,6 +17,7 @@ function SnippetCard({
   language,
   onDelete,
   createdAt,
+  showDelete,
 }: SnippetProps) {
   const [copy, setCopy] = useState(false);
   const [showCode, setShowCode] = useState(false);
@@ -34,13 +36,15 @@ function SnippetCard({
         <div>
           <h2 className="font-bold text-lg">{title}</h2>
           <p className="text-sm text-gray-600">{language}</p>
-          <p>
-            {new Date(createdAt).toLocaleDateString()} at{" "}
-            {new Date(createdAt).toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
+          {createdAt && (
+            <p>
+              {new Date(createdAt).toLocaleDateString()} at{" "}
+              {new Date(createdAt).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -52,13 +56,15 @@ function SnippetCard({
             {copy ? "✅" : <Copy size={18} />}
           </button>
 
-          <button
-            onClick={onDelete}
-            title="Delete snippet"
-            className="p-1 rounded hover:bg-red-500 hover:text-white transition"
-          >
-            <Trash2 size={18} />
-          </button>
+          {showDelete && onDelete && (
+            <button
+              onClick={onDelete}
+              title="Delete snippet"
+              className="p-1 rounded hover:bg-red-500 hover:text-white transition"
+            >
+              <Trash2 size={18} />
+            </button>
+          )}
 
           <button
             onClick={() => setShowCode((prev) => !prev)}
