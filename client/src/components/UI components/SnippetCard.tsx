@@ -1,4 +1,4 @@
-import { Copy, Trash2 } from "lucide-react";
+import { ArrowBigDown, ArrowUp, Copy, Trash2 } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -11,6 +11,11 @@ interface SnippetProps {
 
 function SnippetCard({ title, code, language, onDelete }: SnippetProps) {
   const [copy, setCopy] = useState(false);
+  const [showCode, setShowCode] = useState(false);
+
+  const toggleShowCode = () => {
+    setShowCode(!showCode);
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
@@ -32,9 +37,9 @@ function SnippetCard({ title, code, language, onDelete }: SnippetProps) {
             className="hover:bg-blue-500 hover:text-white transition-all duration-200"
             title="Copy code"
           >
-            <Copy size={18} />
+            {copy ? "✅ Copied!" : <Copy size={18} />}
           </button>
-          (onDelete &&(
+
           <button
             onClick={onDelete}
             title="Delete Snippet"
@@ -42,10 +47,16 @@ function SnippetCard({ title, code, language, onDelete }: SnippetProps) {
           >
             <Trash2 size={18} />
           </button>
-          ))
+          <button onClick={toggleShowCode}>
+            {showCode ? <ArrowBigDown /> : <ArrowUp />}
+          </button>
         </div>
       </div>
-      <pre className="bg-gray-200 rounded-md p-3 text-sm overflow-x-auto">
+      <pre
+        className={`bg-gray-200 rounded-md p-3 text-sm overflow-x-auto ${
+          showCode ? "" : "hidden"
+        }`}
+      >
         <code>{code}</code>
       </pre>
     </div>
