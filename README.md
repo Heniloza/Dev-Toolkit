@@ -14,6 +14,7 @@ DevKit is a full-stack MERN application built to centralize essential tools deve
 -  **Snippets**
   - Save code snippets with language tags
   - View, delete, and manage personal snippets
+  - Access frequenlt used snippets ready
 -  **Color Palette Generator** (Coming soon)
 -  **Regex Tester** (Coming soon)
 -  **JSON Formatter** (Coming soon)
