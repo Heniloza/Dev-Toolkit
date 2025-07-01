@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/authStore";
 import CreateSnippet from "../components/UI components/CreateSnippet";
 import { useNavigate } from "react-router-dom";
-import { mockSnippets } from "../mock/snippetMock";
+import { mockSnippets } from "../mock/MockData";
 
 function Snippets() {
   const [isModelOpen, setIsModelOpen] = useState(false);

@@ -10,15 +10,17 @@ function MainLayout() {
       <Navbar />
 
       {/* Below: Sidebar + Main content side by side */}
-      <div className="flex flex-1">
+      <div className="flex flex-1 ">
         {/* Sidebar on the left */}
         <Sidebar />
         <MobileSidebar />
 
         {/* Main Content */}
-        <main className="p-4 flex-1">
-          <Outlet />
-        </main>
+        <div className="flex-1 overflow-hidden">
+          <main className="p-4 h-[calc(100vh-4rem)] overflow-y-auto">
+            <Outlet />
+          </main>
+        </div>
       </div>
     </div>
   );
