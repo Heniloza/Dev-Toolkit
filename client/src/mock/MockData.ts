@@ -603,3 +603,137 @@ export const colorPalettes = [
     colors: ["#03045e", "#023e8a", "#0077b6", "#0096c7", "#00b4d8"],
   },
 ];
+
+export const commonRegexPatterns = [
+  {
+    name: "Email Address",
+    pattern: "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$",
+    example: "example@mail.com",
+  },
+  {
+    name: "Phone Number (India)",
+    pattern: "^(\\+91)?[6-9][0-9]{9}$",
+    example: "+919876543210",
+  },
+  {
+    name: "URL",
+    pattern: "^(https?:\\/\\/)?([\\w.-]+)\\.([a-z\\.]{2,6})([\\/\\w .-]*)*\\/?$",
+    example: "https://example.com",
+  },
+  {
+    name: "Postal Code (India)",
+    pattern: "^[1-9][0-9]{5}$",
+    example: "370001",
+  },
+  {
+    name: "Username (alphanumeric, 3-16 chars)",
+    pattern: "^[a-zA-Z0-9_]{3,16}$",
+    example: "henil_dev123",
+  },
+  {
+    name: "IPv4 Address",
+    pattern:
+      "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+    example: "192.168.0.1",
+  },
+  {
+    name: "Hex Color Code",
+    pattern: "^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$",
+    example: "#ff5733",
+  },
+  {
+    name: "Password (min 8 chars, 1 uppercase, 1 number)",
+    pattern: "^(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d@$!%*?&]{8,}$",
+    example: "Henil@2024",
+  },
+  {
+    name: "Date (YYYY-MM-DD)",
+    pattern: "^\\d{4}-\\d{2}-\\d{2}$",
+    example: "2025-07-02",
+  },
+  {
+    name: "Only Digits",
+    pattern: "^\\d+$",
+    example: "123456",
+  },
+  {
+    name: "UUID v4",
+    pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+  },
+  {
+    name: "ISO 8601 Date (YYYY-MM-DD)",
+    pattern: "^\\d{4}-\\d{2}-\\d{2}$",
+  },
+  {
+    name: "24-Hour Time Format",
+    pattern: "^([01]\\d|2[0-3]):[0-5]\\d$",
+  },
+  {
+    name: "Credit Card Number (Basic)",
+    pattern: "^\\d{4}-?\\d{4}-?\\d{4}-?\\d{4}$",
+  },
+  {
+    name: "US Phone Number (123-456-7890)",
+    pattern: "^\\d{3}-\\d{3}-\\d{4}$",
+  },
+  {
+    name: "Only Lowercase Letters",
+    pattern: "^[a-z]+$",
+  },
+  {
+    name: "Only Uppercase Letters",
+    pattern: "^[A-Z]+$",
+  },
+  {
+    name: "Only Letters (Both Cases)",
+    pattern: "^[a-zA-Z]+$",
+  },
+  {
+    name: "HTML Tags",
+    pattern: "<(\"[^\"]*\"|'[^']*'|[^'\">])*>",
+  },
+  {
+    name: "IP Address (IPv4)",
+    pattern: "^((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$",
+  },
+  {
+    name: "Hexadecimal Color (#fff or #ffffff)",
+    pattern: "^#(?:[0-9a-fA-F]{3}){1,2}$",
+  },
+  {
+    name: "Strong Password (8+ chars, upper/lower, number, symbol)",
+    pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+  },
+  {
+    name: "Base64 String",
+    pattern: "^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$",
+  },
+  {
+    name: "Positive Integer",
+    pattern: "^\\d+$",
+  },
+  {
+    name: "Negative Integer",
+    pattern: "^-\\d+$",
+  },
+  {
+    name: "Alphanumeric",
+    pattern: "^[a-zA-Z0-9]+$",
+  },
+  {
+    name: "URL Slug",
+    pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+  },
+  {
+    name: "File Name with Extension",
+    pattern: "^[\\w,\\s-]+\\.[A-Za-z]{3}$",
+  },
+  {
+    name: "MAC Address",
+    pattern: "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$",
+  },
+  {
+    name: "Whitespace Only",
+    pattern: "^\\s+$",
+  },
+];
