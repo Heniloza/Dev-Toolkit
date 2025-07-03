@@ -1,14 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const snippetsCOntrollers_1 = require("../controllers/snippetsCOntrollers");
-const authMiddleware_1 = require("../middleware/authMiddleware");
-const router = express_1.default.Router();
-router.post("/create", authMiddleware_1.authMiddleware, snippetsCOntrollers_1.createSnippet);
-router.get("/fetch", authMiddleware_1.authMiddleware, snippetsCOntrollers_1.fetchSnippets);
-router.delete("/delete/:id", authMiddleware_1.authMiddleware, snippetsCOntrollers_1.deleteSnippets);
-exports.default = router;
-//# sourceMappingURL=snippetsRoute.js.map
+import express from "express";
+import { createSnippet, deleteSnippets, fetchSnippets } from "../controllers/snippetsCOntrollers";
+import { authMiddleware } from "../middleware/authMiddleware";
+const router = express.Router();
+router.post("/create", authMiddleware, createSnippet);
+router.get("/fetch", authMiddleware, fetchSnippets);
+router.delete("/delete/:id", authMiddleware, deleteSnippets);
+export default router;

@@ -1,30 +1,24 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkAuth = exports.updateProfile = exports.logoutController = exports.loginController = exports.signupController = void 0;
-const userModel_1 = __importDefault(require("../models/userModel"));
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const cloudinary_1 = __importDefault(require("../utils/cloudinary"));
-const signupController = async (req, res) => {
+import USER from "../models/userModel";
+import bcrypt from "bcryptjs";
+import cloudinary from "../utils/cloudinary";
+export const signupController = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
         if (!username || !email || !password) {
-            return res.status(400).json({
+            res.status(400).json({
                 message: "All field are required"
             });
         }
         if (password.length <= 6) {
-            return res.status(400).json({
+            res.status(400).json({
                 message: "Password must be at least 6 character"
             });
         }
-        const existingUser = await userModel_1.default.findOne({ email, username });
+        const existingUser = await USER.findOne({ email, username });
         if (existingUser)
-            return res.status(400).json({ suucess: false, message: "User already exist" });
-        const hashedPassword = await bcryptjs_1.default.hash(password, 12);
-        const newUser = await userModel_1.default.create({
+            res.status(400).json({ suucess: false, message: "User already exist" });
+        const hashedPassword = await bcrypt.hash(password, 12);
+        const newUser = await USER.create({
             username,
             email,
             password: hashedPassword,
@@ -38,26 +32,31 @@ const signupController = async (req, res) => {
         });
     }
 };
-exports.signupController = signupController;
-const loginController = async (req, res) => {
+export const loginController = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            return res.status(400).json({
+            res.status(400).json({
                 message: "All field are required"
             });
+            return;
         }
         if (password.length <= 6) {
-            return res.status(400).json({
+            res.status(400).json({
                 message: "Password must be at least 6 characters"
             });
+            return;
         }
-        const user = await userModel_1.default.findOne({ email });
-        if (!user)
-            return res.status(404).json({ message: "User not found" });
-        const isMatch = await bcryptjs_1.default.compare(password, user.password);
-        if (!isMatch)
-            return res.status(400).json({ message: "Invalid credentials" });
+        const user = await USER.findOne({ email });
+        if (!user) {
+            res.status(404).json({ message: "User not found" });
+            return;
+        }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            res.status(400).json({ message: "Invalid credentials" });
+            return;
+        }
         res.status(200).json({
             user,
             message: "User logged in successfully"
@@ -70,8 +69,7 @@ const loginController = async (req, res) => {
         });
     }
 };
-exports.loginController = loginController;
-const logoutController = async (req, res) => {
+export const logoutController = async (req, res, next) => {
     try {
         res.clearCookie("token");
         res.status(200).json({ message: "Logged out successfully" });
@@ -82,18 +80,17 @@ const logoutController = async (req, res) => {
         });
     }
 };
-exports.logoutController = logoutController;
-const updateProfile = async (req, res) => {
+export const updateProfile = async (req, res, next) => {
     try {
         const { profileImage } = req.body;
         const userId = req.user._id;
         if (!profileImage || !userId) {
-            return res.status(404).json({
+            res.status(404).json({
                 message: "Image and userid are required"
             });
         }
-        const uploadResponse = await cloudinary_1.default.uploader.upload(profileImage);
-        const updateUser = await userModel_1.default.findByIdAndUpdate(userId, {
+        const uploadResponse = await cloudinary.uploader.upload(profileImage);
+        const updateUser = await USER.findByIdAndUpdate(userId, {
             profileImage: uploadResponse.secure_url
         }, { new: true });
         res.status(200).json({
@@ -107,13 +104,12 @@ const updateProfile = async (req, res) => {
         });
     }
 };
-exports.updateProfile = updateProfile;
-const checkAuth = async (req, res) => {
+export const checkAuth = async (req, res, next) => {
     try {
         const userId = req.user._id;
-        const user = await userModel_1.default.findById(userId);
+        const user = await USER.findById(userId);
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            res.status(404).json({ message: "User not found" });
         }
         res.status(200).json({ user });
     }
@@ -121,5 +117,3 @@ const checkAuth = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
-exports.checkAuth = checkAuth;
-//# sourceMappingURL=authController.js.map

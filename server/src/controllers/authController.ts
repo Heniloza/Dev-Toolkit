@@ -1,26 +1,26 @@
-import {Request,Response} from "express";
+import {NextFunction, Request,RequestHandler,Response} from "express";
 import USER from "../models/userModel";
 import bcrypt from "bcryptjs";
 import cloudinary from "../utils/cloudinary";
 
-export const signupController = async(req:Request,res:Response)=>{
+export const signupController:RequestHandler = async(req:Request,res:Response,next:NextFunction)=>{
    try {
         const {username,email,password} = req.body;
 
         if(!username || !email || !password) {
-            return res.status(400).json({
+             res.status(400).json({
                 message:"All field are required"
             })
         }
 
         if(password.length<=6) {
-            return res.status(400).json({
+             res.status(400).json({
                 message:"Password must be at least 6 character"
             })
         }
 
         const existingUser = await USER.findOne({email,username})
-        if(existingUser) return res.status(400).json({suucess:false,message:"User already exist"})
+        if(existingUser)  res.status(400).json({suucess:false,message:"User already exist"})
 
         const hashedPassword = await bcrypt.hash(password,12)
 
@@ -33,7 +33,7 @@ export const signupController = async(req:Request,res:Response)=>{
 
     res.status(201).json({user:newUser,message:"New User created"})
 
-   } catch (error) {
+   } catch (error:any) {
     res.status(500).json({
         message:"Failed to signup",
         error
@@ -41,33 +41,37 @@ export const signupController = async(req:Request,res:Response)=>{
    }
 }
 
-export const loginController = async(req:Request,res:Response)=>{
+export const loginController:RequestHandler = async(req:Request,res:Response,next:NextFunction)=>{
     try {
         const {email,password} = req.body;
 
         if(!email || !password) {
-            return res.status(400).json({
+             res.status(400).json({
                 message:"All field are required"
             })
+            return;
         }
 
         if(password.length<=6){
-            return res.status(400).json({
+             res.status(400).json({
                 message:"Password must be at least 6 characters"
             })
+            return
         }
 
         const user = await USER.findOne({email})
-        if(!user) return res.status(404).json({message:"User not found"})
+        if(!user)  {res.status(404).json({message:"User not found"})
+           return}
 
         const isMatch = await bcrypt.compare(password,user.password)
-        if(!isMatch) return res.status(400).json({message:"Invalid credentials"})
+        if(!isMatch)  {res.status(400).json({message:"Invalid credentials"}) 
+          return}
 
         res.status(200).json({
             user,
             message:"User logged in successfully"
         })
-    } catch (error) {
+    } catch (error:any) {
         res.status(500).json({
         message:"Failed to Login",
         error
@@ -75,25 +79,25 @@ export const loginController = async(req:Request,res:Response)=>{
     }
 }
 
-export const logoutController = async (req: Request, res: Response) => {
+export const logoutController:RequestHandler = async (req: Request, res: Response,next:NextFunction) => {
   try {
     res.clearCookie("token");
     res.status(200).json({ message: "Logged out successfully" });
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({
       message: "Failed to lofout"
     });
   }
 };
  
-export const updateProfile = async (req: Request, res: Response) => {
+export const updateProfile:RequestHandler = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const {profileImage} = req.body;
     const userId= req.user._id
     
     
     if(!profileImage || !userId){
-      return res.status(404).json({
+       res.status(404).json({
         message: "Image and userid are required"
       });
     }
@@ -113,24 +117,24 @@ export const updateProfile = async (req: Request, res: Response) => {
       user:updateUser
     })
 
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({
       message: "Error in updating profile."
     });
   }
 };
 
-export const checkAuth = async (req: Request, res: Response) => {
+export const checkAuth:RequestHandler = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const userId = req.user._id;
     const user = await USER.findById(userId); 
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+       res.status(404).json({ message: "User not found" });
     }
 
     res.status(200).json({ user }); 
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({ message: "Internal server error" });
   }
 };

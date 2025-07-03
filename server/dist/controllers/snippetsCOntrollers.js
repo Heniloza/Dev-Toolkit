@@ -1,25 +1,19 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSnippets = exports.fetchSnippets = exports.createSnippet = void 0;
-const snippetsModel_1 = __importDefault(require("../models/snippetsModel"));
-const createSnippet = async (req, res) => {
+import SNIPPETS from '../models/snippetsModel';
+export const createSnippet = async (req, res, next) => {
     try {
         const { title, code, language } = req.body;
         if (!title || !code || !language) {
-            return res.status(400).json({
+            res.status(400).json({
                 message: "All fiels are required"
             });
         }
-        const snippet = await snippetsModel_1.default.create({
+        const snippet = await SNIPPETS.create({
             title,
             code,
             language,
             user: req.user._id
         });
-        return res.status(201).json({
+        res.status(201).json({
             message: "Snippet created successfully",
             data: snippet
         });
@@ -30,11 +24,10 @@ const createSnippet = async (req, res) => {
         });
     }
 };
-exports.createSnippet = createSnippet;
-const fetchSnippets = async (req, res) => {
+export const fetchSnippets = async (req, res, next) => {
     try {
-        const snippets = await snippetsModel_1.default.find({ user: req.user._id });
-        return res.status(200).json({
+        const snippets = await SNIPPETS.find({ user: req.user._id });
+        res.status(200).json({
             message: "User posts fetched successfully",
             data: snippets
         });
@@ -45,22 +38,21 @@ const fetchSnippets = async (req, res) => {
         });
     }
 };
-exports.fetchSnippets = fetchSnippets;
-const deleteSnippets = async (req, res) => {
+export const deleteSnippets = async (req, res, next) => {
     try {
         const snippetId = req.params.id;
         if (!snippetId) {
-            return res.status().json({
+            res.status(400).json({
                 message: "Snippet ID is required to delete snippet"
             });
         }
-        const snippet = await snippetsModel_1.default.findById(snippetId);
+        const snippet = await SNIPPETS.findById(snippetId);
         if (!snippet) {
-            return res.status(404).json({
+            res.status(404).json({
                 message: "Snippet not found"
             });
         }
-        await snippetsModel_1.default.findByIdAndDelete(snippetId);
+        await SNIPPETS.findByIdAndDelete(snippetId);
         res.status(200).json({ message: "Snippet deleted successfully" });
     }
     catch (error) {
@@ -69,5 +61,3 @@ const deleteSnippets = async (req, res) => {
         });
     }
 };
-exports.deleteSnippets = deleteSnippets;
-//# sourceMappingURL=snippetsCOntrollers.js.map

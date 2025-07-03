@@ -20,7 +20,7 @@ app.use(
 );
 
 //Middlewares
-app.use(express.urlencoded(true));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser())
 
@@ -28,7 +28,7 @@ app.use(cookieParser())
 app.use("/api/auth",authRoutes)
 app.use("/api/snippets",snippetsRoutes)
 
-if(process.env.NODE_ENV="production"){
+if(process.env.NODE_ENV==="production"){
   app.use(express.static(path.join(__dirname,"../../client/dist")))
 
   app.get("*",(req:Request,res:Response)=>{

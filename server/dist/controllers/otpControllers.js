@@ -1,39 +1,33 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyOtpController = exports.generateOtpController = void 0;
-const userModel_1 = __importDefault(require("../models/userModel"));
-const sendOtp_1 = require("../utils/sendOtp");
-const optTokenModel_1 = __importDefault(require("../models/optTokenModel"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const generateOtpController = async (req, res) => {
+import USER from "../models/userModel";
+import { sendOtp } from "../utils/sendOtp";
+import OTPTOKEN from "../models/optTokenModel";
+import jwt from "jsonwebtoken";
+export const generateOtpController = async (req, res, next) => {
     try {
         const { userId } = req.body;
         if (!userId) {
-            return res.status(400).json({
+            res.status(400).json({
                 message: "UserId is required"
             });
         }
-        const user = await userModel_1.default.findById(userId);
+        const user = await USER.findById(userId);
         if (!user) {
-            return res.status(404).json({
+            res.status(404).json({
                 message: "User not found or email mismatch"
             });
         }
-        await optTokenModel_1.default.deleteMany({ userId: String(userId) });
+        await OTPTOKEN.deleteMany({ userId: String(userId) });
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         const expiresAt = new Date(Date.now() + 5 * 60 * 1000); //For 5 Mins
-        await optTokenModel_1.default.create({
+        await OTPTOKEN.create({
             userId,
             otp,
             expiresAt,
             verified: false,
             attemptCount: 0,
         });
-        await (0, sendOtp_1.sendOtp)(user?.email, otp);
-        return res.status(200).json({
+        await sendOtp(user.email, otp);
+        res.status(200).json({
             message: "OTP sent successfully",
         });
     }
@@ -44,41 +38,47 @@ const generateOtpController = async (req, res) => {
         });
     }
 };
-exports.generateOtpController = generateOtpController;
-const verifyOtpController = async (req, res) => {
+export const verifyOtpController = async (req, res, next) => {
     try {
         const { userId, otp } = req.body;
+        const jwtSecret = process.env.JWT_SECRET;
         if (!otp || !userId) {
-            return res.status(400).json({
+            res.status(400).json({
                 message: "All field are required"
             });
+            return;
         }
-        const otpToken = await optTokenModel_1.default.findOne({ userId });
+        const otpToken = await OTPTOKEN.findOne({ userId });
         if (!otpToken) {
-            return res.status(404).json({
+            res.status(404).json({
                 message: "OTP not found or Already verified"
             });
+            return;
         }
         if (otpToken.expiresAt < new Date()) {
-            await optTokenModel_1.default.deleteOne({ _id: otpToken._id });
-            return res.status(400).json({ message: "OTP has expired" });
+            await OTPTOKEN.deleteOne({ _id: otpToken._id });
+            res.status(400).json({ message: "OTP has expired" });
+            return;
         }
         if (otpToken.attemptCount >= 5) {
-            await optTokenModel_1.default.deleteOne({ _id: otpToken._id });
-            return res.status(429).json({ message: "Too many invalid attempts. Try again later." });
+            await OTPTOKEN.deleteOne({ _id: otpToken._id });
+            res.status(400).json({ message: "Too many invalid attempts. Try again later." });
+            return;
         }
         if (otpToken.otp !== otp) {
             otpToken.attemptCount += 1;
             await otpToken.save();
-            return res.status(400).json({ message: "Invalid OTP" });
+            res.status(400).json({ message: "Invalid OTP" });
+            return;
         }
         otpToken.verified = true;
         await otpToken.save();
-        const user = await userModel_1.default.findById(userId).select("-password");
+        const user = await USER.findById(userId).select("-password");
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            res.status(404).json({ message: "User not found" });
+            return;
         }
-        const token = jsonwebtoken_1.default.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+        const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: "7d" });
         res.cookie("token", token, {
             httpOnly: true,
             secure: false,
@@ -97,5 +97,3 @@ const verifyOtpController = async (req, res) => {
         });
     }
 };
-exports.verifyOtpController = verifyOtpController;
-//# sourceMappingURL=otpControllers.js.map

@@ -1,10 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const snippetSchema = new mongoose_1.default.Schema({
+import mongoose from "mongoose";
+const snippetSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -18,11 +13,10 @@ const snippetSchema = new mongoose_1.default.Schema({
         required: true
     },
     user: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "user",
         required: true,
     }
 }, { timestamps: true });
-const SNIPPETS = mongoose_1.default.model("Snippets", snippetSchema);
-exports.default = SNIPPETS;
-//# sourceMappingURL=snippetsModel.js.map
+const SNIPPETS = mongoose.model("Snippets", snippetSchema);
+export default SNIPPETS;

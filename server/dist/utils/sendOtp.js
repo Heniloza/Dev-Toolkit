@@ -1,12 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendOtp = void 0;
-const nodemailer_1 = __importDefault(require("nodemailer"));
-const sendOtp = async (email, otp) => {
-    const transporter = nodemailer_1.default.createTransport({
+import nodemailer from "nodemailer";
+export const sendOtp = async (email, otp) => {
+    const transporter = nodemailer.createTransport({
         secure: true,
         host: "smtp.gmail.com",
         port: 465,
@@ -23,5 +17,3 @@ const sendOtp = async (email, otp) => {
     };
     await transporter.sendMail(mailOptions);
 };
-exports.sendOtp = sendOtp;
-//# sourceMappingURL=sendOtp.js.map

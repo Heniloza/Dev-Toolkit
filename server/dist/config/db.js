@@ -1,19 +1,16 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.connectDb = connectDb;
-const mongoose_1 = __importDefault(require("mongoose"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-async function connectDb() {
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
+export async function connectDb() {
+    const mongoUrl = process.env.MONGO_URL;
+    if (!mongoUrl) {
+        throw new Error("MONGO_URL is not defined in environment variables.");
+    }
     try {
-        await mongoose_1.default.connect(process.env.MONGO_URL);
+        await mongoose.connect(mongoUrl);
         console.log('Connected to mongoDb');
     }
     catch (error) {
         console.error("MongoDB connection error:", error.message);
     }
 }
-//# sourceMappingURL=db.js.map

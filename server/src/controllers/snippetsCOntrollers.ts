@@ -1,13 +1,13 @@
-import {Request, Response } from 'express';
+import {NextFunction, Request, RequestHandler, Response } from 'express';
 import SNIPPETS from '../models/snippetsModel';
 
 
-export const createSnippet = async (req: Request, res: Response) => {
+export const createSnippet:RequestHandler = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const {title,code,language} = req.body;
 
     if(!title || !code || !language){
-        return res.status(400).json({
+         res.status(400).json({
           message: "All fiels are required"
         });
     }
@@ -19,39 +19,39 @@ export const createSnippet = async (req: Request, res: Response) => {
         user:req.user._id
     })
 
-    return res.status(201).json({
+     res.status(201).json({
       message: "Snippet created successfully",
       data:snippet
     });
     
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({
       message: "Enable to create asnippet"
     });
   }
 };
 
-export const fetchSnippets = async (req: Request, res: Response) => {
+export const fetchSnippets:RequestHandler = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const snippets = await SNIPPETS.find({user:req.user._id})
 
-    return res.status(200).json({
+     res.status(200).json({
       message: "User posts fetched successfully",
       data:snippets
     });
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({
       message: "Enable to fetch snippets"
     });
   }
 };
 
-export const deleteSnippets = async (req: Request, res: Response) => {
+export const deleteSnippets:RequestHandler = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const snippetId = req.params.id;
 
     if(!snippetId){
-        return res.status().json({
+         res.status(400).json({
           message: "Snippet ID is required to delete snippet"
         });
     }
@@ -59,7 +59,7 @@ export const deleteSnippets = async (req: Request, res: Response) => {
     const snippet = await SNIPPETS.findById(snippetId)
 
     if(!snippet){
-        return res.status(404).json({
+         res.status(404).json({
           message: "Snippet not found"
         });
     }
@@ -67,7 +67,7 @@ export const deleteSnippets = async (req: Request, res: Response) => {
     await SNIPPETS.findByIdAndDelete(snippetId)
 
     res.status(200).json({ message: "Snippet deleted successfully" });
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({
       message: "Error in deleting snippets"
     });

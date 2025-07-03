@@ -1,23 +1,23 @@
-import {Request,Response} from "express"
+import {NextFunction, Request,RequestHandler,Response} from "express"
 import USER from "../models/userModel";
 import { sendOtp } from "../utils/sendOtp";
 import OTPTOKEN from "../models/optTokenModel";
 import jwt from "jsonwebtoken"
 
 
-export const generateOtpController = async (req: Request, res: Response) => {
+export const generateOtpController:RequestHandler = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const {userId} = req.body
 
     if(!userId ) {
-        return res.status(400).json({
+         res.status(400).json({
           message: "UserId is required"
         });
     }
     
     const user = await USER.findById(userId)
     if(!user){
-        return res.status(404).json({
+         res.status(404).json({
           message: "User not found or email mismatch"
         });
     }
@@ -35,13 +35,14 @@ export const generateOtpController = async (req: Request, res: Response) => {
         attemptCount: 0,
     })
 
-    await sendOtp(user?.email,otp)
+   
+    await sendOtp(user!.email!,otp)
 
-     return res.status(200).json({
+      res.status(200).json({
       message: "OTP sent successfully",
     });
 
-  } catch (error) {
+  } catch (error:any) {
     console.log(error.message);
     res.status(500).json({
       message: "Enable to generate OTP"
@@ -49,37 +50,44 @@ export const generateOtpController = async (req: Request, res: Response) => {
   }
 };
 
-export const verifyOtpController = async (req: Request, res: Response) => {
+export const verifyOtpController:RequestHandler = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const {userId,otp} = req.body;
+    const jwtSecret = process.env.JWT_SECRET as string
 
     if(!otp || !userId){
-      return res.status(400).json({
+       res.status(400).json({
         message: "All field are required"
       });
+      return;
+
     }
 
     const otpToken = await OTPTOKEN.findOne({ userId});
     if(!otpToken){
-      return res.status(404).json({
+       res.status(404).json({
         message: "OTP not found or Already verified"
       });
+      return
     }
 
     if (otpToken.expiresAt < new Date()) {
       await OTPTOKEN.deleteOne({ _id: otpToken._id });
-      return res.status(400).json({ message: "OTP has expired" });
+       res.status(400).json({ message: "OTP has expired" });
+       return;
     }
     
     if (otpToken.attemptCount >= 5) {
       await OTPTOKEN.deleteOne({ _id: otpToken._id });
-      return res.status(429).json({ message: "Too many invalid attempts. Try again later." });
+       res.status(400).json({ message: "Too many invalid attempts. Try again later." });
+       return
     }
 
    if (otpToken.otp !== otp) {
     otpToken.attemptCount += 1;
     await otpToken.save();
-    return res.status(400).json({ message: "Invalid OTP" });
+     res.status(400).json({ message: "Invalid OTP" });
+     return
   }
 
     otpToken.verified = true;
@@ -87,10 +95,11 @@ export const verifyOtpController = async (req: Request, res: Response) => {
 
     const user = await USER.findById(userId).select("-password");
       if (!user) {
-        return res.status(404).json({ message: "User not found" });
+         res.status(404).json({ message: "User not found" });
+         return
       }
     
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: "7d" });
 
    
       res.cookie("token", token, {
@@ -105,7 +114,7 @@ export const verifyOtpController = async (req: Request, res: Response) => {
     });
 
 
-  } catch (error) {
+  } catch (error:any) {
     console.log("Error in verifying OTP",error.message);
     res.status(500).json({
       message: "Internal server error in verifying OTP"
