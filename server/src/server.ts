@@ -1,7 +1,7 @@
 import express,{Request,Response} from "express"
 import dotenv from "dotenv"
 dotenv.config();
-import { connectDb } from "./config/db";
+import { connectDb } from "./config/db.js";
 import cookieParser from "cookie-parser"
 import authRoutes from "./routes/authRoutes"
 import snippetsRoutes from "./routes/snippetsRoute"
