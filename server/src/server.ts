@@ -29,7 +29,7 @@ app.use(cookieParser())
 app.use("/api/auth",authRoutes)
 app.use("/api/snippets",snippetsRoutes)
 
-const clientBuildPath = path.join(__dirname, "../../client/dist");
+const clientBuildPath = path.resolve(__dirname, "../../client/dist");
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(clientBuildPath));
