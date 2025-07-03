@@ -29,13 +29,12 @@ app.use(cookieParser())
 app.use("/api/auth",authRoutes)
 app.use("/api/snippets",snippetsRoutes)
 
-const clientBuildPath = path.resolve(__dirname, "../../client/dist");
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(clientBuildPath));
+  app.use(express.static(path.join(__dirname,"../../client/dist")));
 
-  app.get("/", (req: Request, res: Response) => {
-    res.sendFile(path.join(clientBuildPath, "index.html"));
+  app.get("/:path", (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname,"../../client","dist", "index.html"));
   });
 }
 
