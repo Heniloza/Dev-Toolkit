@@ -6,8 +6,10 @@ import cookieParser from "cookie-parser"
 import authRoutes from "./routes/authRoutes"
 import snippetsRoutes from "./routes/snippetsRoute"
 import cors from "cors"
+import path from "path"
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT;
+const __dirname = path.resolve()
 connectDb();
 
 app.use(
@@ -25,6 +27,15 @@ app.use(cookieParser())
 //Routes
 app.use("/api/auth",authRoutes)
 app.use("/api/snippets",snippetsRoutes)
+
+if(process.env.NODE_ENV="production"){
+  app.use(express.static(path.join(__dirname,"../../client/dist")))
+
+  app.get("*",(req:Request,res:Response)=>{
+    res.sendFile(path.join(__dirname,"../../client","dist","index.html"))
+  })
+
+}
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -70,4 +70,4 @@ const deleteSnippets = async (req, res) => {
     }
 };
 exports.deleteSnippets = deleteSnippets;
-//# sourceMappingURL=snippetsControllers.js.map
+//# sourceMappingURL=snippetsCOntrollers.js.map

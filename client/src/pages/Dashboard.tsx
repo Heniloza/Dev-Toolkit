@@ -4,7 +4,6 @@ import { colorPalettes, mockSnippets } from "../mock/MockData";
 import SnippetCard from "../components/UI components/SnippetCard";
 import { Link } from "react-router-dom";
 import { View } from "lucide-react";
-import PaletteCard from "../components/UI components/PaletteCard";
 
 function Dashboard() {
   const { user } = useAuthStore();
