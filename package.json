@@ -1,12 +1,12 @@
 {
   "name": "dev-toolkit",
   "version": "1.0.0",
-  "description": "DevKit is a full-stack MERN application built to centralize essential tools developers use every day. Whether you want to save code snippets, format JSON, test regex, or manage your profile securely with OTP-based authentication — DevKit has you covered.",
+  "description": "DevKit is a full-stack MERN application...",
   "type": "module",
-  "main": "dist/server.js",
+  "main": "server/dist/server.js",
   "scripts": {
-    "build": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
-    "start": "npm run start --prefix server"
+    "build": "npm install --prefix server && npm install --prefix client && npm run build --prefix client && npm run build --prefix server",
+    "start": "node server/dist/server.js"
   },
   "keywords": [],
   "author": "",

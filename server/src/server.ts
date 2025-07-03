@@ -31,10 +31,12 @@ app.use("/api/snippets",snippetsRoutes)
 
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname,"../../client/dist")));
+  const clientPath = path.join(__dirname, "../../client/dist");
+
+  app.use(express.static(clientPath));
 
   app.get("/:path", (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname,"../../client","dist", "index.html"));
+    res.sendFile(path.join(clientPath, "index.html"));
   });
 }
 
