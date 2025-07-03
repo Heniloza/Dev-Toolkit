@@ -15,7 +15,7 @@ function Snippets() {
 
   useEffect(() => {
     fetchSnippets();
-  }, []);
+  }, [isModelOpen, setIsModelOpen, snippets]);
 
   return (
     <div className="flex flex-col lg:flex-row h-[100vh] w-full gap-4 px-4 py-6 overflow-hidden">

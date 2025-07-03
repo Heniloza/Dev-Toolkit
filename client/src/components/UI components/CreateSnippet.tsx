@@ -26,6 +26,7 @@ function CreateSnippet({
     }
 
     addSnippet(snippetData);
+    setIsModelOpen(false);
     setsnippetData({ title: "", code: "", language: "" });
   };
   return (
