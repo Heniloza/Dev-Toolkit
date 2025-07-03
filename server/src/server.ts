@@ -10,6 +10,7 @@ import path from "path"
 const app = express();
 const PORT = process.env.PORT;
 const __dirname = path.resolve()
+
 connectDb();
 
 app.use(
