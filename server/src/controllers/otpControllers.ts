@@ -1,7 +1,7 @@
 import {NextFunction, Request,RequestHandler,Response} from "express"
-import USER from "../models/userModel";
-import { sendOtp } from "../utils/sendOtp";
-import OTPTOKEN from "../models/optTokenModel";
+import USER from "../models/userModel.js";
+import { sendOtp } from "../utils/sendOtp.js";
+import OTPTOKEN from "../models/optTokenModel.js";
 import jwt from "jsonwebtoken"
 
 

@@ -1,7 +1,7 @@
 import express from "express";
-import { checkAuth, loginController, logoutController, signupController, updateProfile } from "../controllers/authController";
-import { authMiddleware } from "../middleware/authMiddleware";
-import { generateOtpController, verifyOtpController } from "../controllers/otpControllers";
+import { checkAuth, loginController, logoutController, signupController, updateProfile } from "../controllers/authController.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
+import { generateOtpController, verifyOtpController } from "../controllers/otpControllers.js";
 const router = express.Router();
 router.post("/signup", signupController);
 router.post("/login", loginController);

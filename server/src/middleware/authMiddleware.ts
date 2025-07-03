@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import jwt from "jsonwebtoken";
-import USER from "../models/userModel"
+import USER from "../models/userModel.js"
 
 export const authMiddleware:RequestHandler = async(req:Request,res:Response,next:NextFunction)=>{
     try {

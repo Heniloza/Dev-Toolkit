@@ -1,5 +1,5 @@
 import {NextFunction, Request,RequestHandler,Response} from "express";
-import USER from "../models/userModel";
+import USER from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import cloudinary from "../utils/cloudinary";
 

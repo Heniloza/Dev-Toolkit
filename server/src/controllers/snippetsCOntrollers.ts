@@ -1,5 +1,5 @@
 import {NextFunction, Request, RequestHandler, Response } from 'express';
-import SNIPPETS from '../models/snippetsModel';
+import SNIPPETS from '../models/snippetsModel.js';
 
 
 export const createSnippet:RequestHandler = async (req: Request, res: Response,next:NextFunction) => {

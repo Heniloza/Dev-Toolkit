@@ -1,4 +1,4 @@
-import SNIPPETS from '../models/snippetsModel';
+import SNIPPETS from '../models/snippetsModel.js';
 export const createSnippet = async (req, res, next) => {
     try {
         const { title, code, language } = req.body;

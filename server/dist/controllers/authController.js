@@ -1,4 +1,4 @@
-import USER from "../models/userModel";
+import USER from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import cloudinary from "../utils/cloudinary";
 export const signupController = async (req, res, next) => {
