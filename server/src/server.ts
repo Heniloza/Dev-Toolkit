@@ -34,7 +34,7 @@ const clientBuildPath = path.resolve(__dirname, "../../client/dist");
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(clientBuildPath));
 
-  app.get("*", (req: Request, res: Response) => {
+  app.get("/", (req: Request, res: Response) => {
     res.sendFile(path.join(clientBuildPath, "index.html"));
   });
 }
