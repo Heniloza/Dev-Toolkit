@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/snippets", snippetsRoutes);
 if (process.env.NODE_ENV === "production") {
-    const clientPath = path.join(__dirname, "../../client/dist");
+    const clientPath = path.resolve(__dirname, "../../client/dist");
     app.use(express.static(clientPath));
     app.get("/:path", (req, res) => {
         res.sendFile(path.join(clientPath, "index.html"));

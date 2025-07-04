@@ -31,8 +31,7 @@ app.use("/api/snippets",snippetsRoutes)
 
 
 if (process.env.NODE_ENV === "production") {
-  const clientPath = path.join(__dirname, "../../client/dist");
-
+  const clientPath = path.resolve(__dirname, "../../client/dist");
   app.use(express.static(clientPath));
 
   app.get("/:path", (req: Request, res: Response) => {
