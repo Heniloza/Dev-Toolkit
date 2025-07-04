@@ -9,8 +9,19 @@ import cors from "cors";
 const app = express();
 const PORT = process.env.PORT || 3000;
 connectDb();
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://dev-mate-a-developer-toolkit.onrender.com"
+];
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true,
 }));
 //Middlewares
