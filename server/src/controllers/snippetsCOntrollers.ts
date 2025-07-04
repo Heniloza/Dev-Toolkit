@@ -1,73 +1,73 @@
-import {NextFunction, Request, RequestHandler, Response } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 import SNIPPETS from '../models/snippetsModel.js';
 
 
-export const createSnippet:RequestHandler = async (req: Request, res: Response,next:NextFunction) => {
+export const createSnippet: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const {title,code,language} = req.body;
+    const { title, code, language } = req.body;
 
-    if(!title || !code || !language){
-         res.status(400).json({
-          message: "All fiels are required"
-        });
+    if (!title || !code || !language) {
+      res.status(400).json({
+        message: "All fiels are required"
+      });
     }
 
     const snippet = await SNIPPETS.create({
-        title,
-        code,
-        language,
-        user:req.user._id
+      title,
+      code,
+      language,
+      user: req.user._id
     })
 
-     res.status(201).json({
+    res.status(201).json({
       message: "Snippet created successfully",
-      data:snippet
+      data: snippet
     });
-    
-  } catch (error:any) {
+
+  } catch (error: any) {
     res.status(500).json({
       message: "Enable to create asnippet"
     });
   }
 };
 
-export const fetchSnippets:RequestHandler = async (req: Request, res: Response,next:NextFunction) => {
+export const fetchSnippets: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const snippets = await SNIPPETS.find({user:req.user._id})
+    const snippets = await SNIPPETS.find({ user: req.user._id })
 
-     res.status(200).json({
+    res.status(200).json({
       message: "User posts fetched successfully",
-      data:snippets
+      data: snippets
     });
-  } catch (error:any) {
+  } catch (error: any) {
     res.status(500).json({
       message: "Enable to fetch snippets"
     });
   }
 };
 
-export const deleteSnippets:RequestHandler = async (req: Request, res: Response,next:NextFunction) => {
+export const deleteSnippets: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const snippetId = req.params.id;
 
-    if(!snippetId){
-         res.status(400).json({
-          message: "Snippet ID is required to delete snippet"
-        });
+    if (!snippetId) {
+      res.status(400).json({
+        message: "Snippet ID is required to delete snippet"
+      });
     }
 
     const snippet = await SNIPPETS.findById(snippetId)
 
-    if(!snippet){
-         res.status(404).json({
-          message: "Snippet not found"
-        });
+    if (!snippet) {
+      res.status(404).json({
+        message: "Snippet not found"
+      });
     }
 
     await SNIPPETS.findByIdAndDelete(snippetId)
 
     res.status(200).json({ message: "Snippet deleted successfully" });
-  } catch (error:any) {
+  } catch (error: any) {
     res.status(500).json({
       message: "Error in deleting snippets"
     });

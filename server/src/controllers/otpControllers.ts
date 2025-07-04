@@ -102,16 +102,19 @@ export const verifyOtpController:RequestHandler = async (req: Request, res: Resp
     const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: "7d" });
 
    
-      res.cookie("token", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    }).status(200).json({
-      message: "OTP verified successfully",
-      user,
-      success:true
-    });
+      return res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .status(200)
+      .json({
+        message: "OTP verified successfully",
+        user,
+        success: true,
+      });
 
 
   } catch (error:any) {
