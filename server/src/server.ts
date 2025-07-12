@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 3000;
 
 connectDb();
 
+app.set('trust proxy', 1)
+
 const allowedOrigins = [
   "http://localhost:5173",
   "https://dev-mate-a-developer-toolkit.onrender.com"
