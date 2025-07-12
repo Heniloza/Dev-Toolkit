@@ -28,7 +28,7 @@ function Home() {
       </div>
 
       {/* Card 2 */}
-      <div className="flex flex-col md:flex-row w-full md:w-[70%] h-auto gap-8 shadow-2xl p-6 rounded-lg bg-white">
+      <div className="flex flex-col md:flex-row w-full md:w-[90%] h-auto gap-6 shadow-2xl p-6 bg-white rounded-lg">
         <div className="flex-1 flex flex-col justify-center gap-4">
           <h1 className="text-3xl font-bold text-gray-900">
             <span className="bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent">
