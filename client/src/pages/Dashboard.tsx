@@ -65,7 +65,7 @@ function Dashboard() {
             ))}
         </div>
         <Link to="/snippets" className="w-fit">
-          <button className="flex items-center justify-center gap-2 px-8 py-2 rounded-full text-white font-semibold bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400 hover:opacity-90 shadow-md transition duration-200">
+          <button className="flex items-center justify-center gap-2 px-6 py-2 rounded-full text-white font-semibold bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400 hover:opacity-90 shadow-md transition duration-200 text-sm sm:text-base max-w-full flex-wrap">
             <View size={18} />
             View All
           </button>
@@ -87,7 +87,6 @@ function Dashboard() {
                 <h3 className="text-md font-bold text-gray-700 text-center">
                   {palette.name}
                 </h3>
-
                 <div className="flex justify-center gap-2 flex-wrap">
                   {palette.colors.map((color, index) => (
                     <div
@@ -98,11 +97,12 @@ function Dashboard() {
                     />
                   ))}
                 </div>
+                \
               </div>
             ))}
         </div>
         <Link to="/palette" className="w-fit">
-          <button className="flex items-center justify-center gap-2 px-8 py-2 rounded-full text-white font-semibold bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400 hover:opacity-90 shadow-md transition duration-200">
+          <button className="flex items-center justify-center gap-2 px-6 py-2 rounded-full text-white font-semibold bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400 hover:opacity-90 shadow-md transition duration-200 text-sm sm:text-base max-w-full flex-wrap">
             <View size={18} />
             View All
           </button>
