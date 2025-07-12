@@ -2,7 +2,7 @@ function Home() {
   return (
     <div className="w-full h-full flex justify-center items-center flex-col gap-6 ">
       {/* Card 1 */}
-      <div className="flex flex-col md:flex-row w-full md:w-[70%] h-auto gap-12 shadow-2xl p-6">
+      <div className="flex flex-col md:flex-row w-full md:w-[90%] h-auto gap-6 shadow-2xl p-6 bg-white rounded-lg">
         <div className="flex flex-1">
           <div className="flex flex-1 gap-6 flex-col ">
             <h1 className="text-4xl font-extrabold text-gray-900">
@@ -19,7 +19,11 @@ function Home() {
           </div>
         </div>
         <div className="flex flex-1">
-          <img className="w-[250px]" src="/home_ui.svg" alt="" />
+          <img
+            className="w-[200px] sm:w-[250px] mx-auto"
+            src="/home_ui.svg"
+            alt=""
+          />
         </div>
       </div>
 

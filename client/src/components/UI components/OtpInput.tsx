@@ -55,7 +55,7 @@ function OtpInput({ length, onOtpSubmit }: OtpInputProps) {
   };
 
   return (
-    <div>
+    <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
       {otp.map((value: string, index: number) => {
         return (
           <input
@@ -68,7 +68,8 @@ function OtpInput({ length, onOtpSubmit }: OtpInputProps) {
             onChange={(c) => handleChange(index, c)}
             onClick={() => handleClick(index)}
             onKeyDown={(e) => handleKeyDown(index, e)}
-            className="size-12 border rounded-sm mx-2 text-center"
+            maxLength={1}
+            className="w-10 h-10 sm:w-12 sm:h-12 border rounded-sm text-center text-lg"
           />
         );
       })}
