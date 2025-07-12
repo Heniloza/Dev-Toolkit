@@ -33,9 +33,8 @@ function CreateSnippet({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-4">
-      {/* Scrollable container on small screens */}
-      <div className="bg-white w-full max-w-md rounded-xl shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-4 py-6 sm:px-6 overflow-auto">
+      <div className="bg-white w-full max-w-md rounded-xl shadow-2xl p-6 relative">
         {/* Close Button */}
         <button
           onClick={() => setIsModelOpen(false)}
@@ -48,7 +47,6 @@ function CreateSnippet({
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-4">
           <h2 className="text-2xl font-bold text-center">Create Snippet</h2>
 
-          {/* Title */}
           <div className="flex flex-col gap-1">
             <label htmlFor="title" className="font-medium">
               Title
@@ -64,7 +62,6 @@ function CreateSnippet({
             />
           </div>
 
-          {/* Code */}
           <div className="flex flex-col gap-1">
             <label htmlFor="code" className="font-medium">
               Code
@@ -80,7 +77,6 @@ function CreateSnippet({
             />
           </div>
 
-          {/* Language */}
           <div className="flex flex-col gap-1">
             <label htmlFor="language" className="font-medium">
               Language
@@ -96,7 +92,6 @@ function CreateSnippet({
             />
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-2 rounded-md font-semibold hover:opacity-90 transition"
