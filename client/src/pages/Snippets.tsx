@@ -71,7 +71,7 @@ function Snippets() {
       </div>
 
       {/* Recommended Snippets Panel */}
-      <div className="w-full lg:w-1/3 shadow-2xl rounded-md hidden lg:flex flex-col overflow-hidden">
+      <div className="w-full shadow-2xl rounded-md flex flex-col overflow-hidden mt-4 lg:mt-0 lg:w-1/3">
         <div className="p-4 text-center text-gray-500 font-medium">
           Recommended Snippets
         </div>
