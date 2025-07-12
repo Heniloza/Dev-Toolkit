@@ -34,7 +34,7 @@ function SnippetCard({
       {/* Header */}
       <div className="flex justify-between items-center gap-4">
         <div>
-          <h2 className="font-bold text-lg">{title}</h2>
+          <h2 className="font-bold sm:text-md text-lg">{title}</h2>
           <p className="text-sm text-gray-600">{language}</p>
           {createdAt && (
             <p>
@@ -47,7 +47,7 @@ function SnippetCard({
           )}
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-2">
           <button
             onClick={handleCopy}
             title="Copy code"
