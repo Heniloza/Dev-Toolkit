@@ -9,10 +9,13 @@ function Dashboard() {
   const { user } = useAuthStore();
 
   return (
-    <div className="w-full h-full flex flex-col gap-2 items-center">
-      <div>
+    <div className="w-full min-h-screen flex flex-col gap-8 items-center px-4 pb-10">
+      {/* Welcome */}
+      <div className="mt-6 text-center">
         <h1 className="font-bold text-2xl">Welcome, {user?.username}</h1>
       </div>
+
+      {/* Animated Message */}
       <TypeAnimation
         sequence={[
           "Ready to boost your dev workflow? ",
@@ -50,8 +53,10 @@ function Dashboard() {
         repeat={Infinity}
       />
 
-      <div className="flex flex-col gap-4 mt-6 items-center">
-        <div className="grid md:grid-cols-3 grid-cols-2 lg:grid-cols-5 gap-4 overflow-hidden">
+      {/* Snippets Section */}
+      <div className="flex flex-col gap-4 mt-10 items-center w-full">
+        <h2 className="text-xl font-semibold">Recently Added Snippets</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
           {mockSnippets
             .slice(-5)
             .reverse()
@@ -64,7 +69,7 @@ function Dashboard() {
               />
             ))}
         </div>
-        <Link to="/snippets" className="w-fit">
+        <Link to="/snippets">
           <button className="flex items-center justify-center gap-2 px-6 py-2 rounded-full text-white font-semibold bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400 hover:opacity-90 shadow-md transition duration-200 text-sm sm:text-base max-w-full flex-wrap">
             <View size={18} />
             View All
@@ -72,10 +77,13 @@ function Dashboard() {
         </Link>
       </div>
 
-      <div className="mt-2">
-        <h2 className="text-xl font-semibold mb-4">Popular Color Palettes</h2>
+      {/* Color Palettes Section */}
+      <div className="mt-12 w-full px-2">
+        <h2 className="text-xl font-semibold mb-4 text-center">
+          Popular Color Palettes
+        </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
           {colorPalettes
             .slice(-5)
             .reverse()
@@ -100,7 +108,8 @@ function Dashboard() {
               </div>
             ))}
         </div>
-        <div className="w-full flex justify-center">
+
+        <div className="w-full flex justify-center mt-4">
           <Link to="/palette">
             <button className="flex items-center justify-center gap-2 px-6 py-2 rounded-full text-white font-semibold bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400 hover:opacity-90 shadow-md transition duration-200 text-sm sm:text-base max-w-full flex-wrap">
               <View size={18} />
@@ -110,7 +119,8 @@ function Dashboard() {
         </div>
       </div>
 
-      <footer className="text-center text-gray-500 text-sm pb-3 md:mb-0 mt-20">
+      {/* Footer */}
+      <footer className="text-center text-gray-500 text-sm mt-10">
         © {new Date().getFullYear()} DevKit by Henil. All rights reserved. |
         Built with MERN Stack
       </footer>
