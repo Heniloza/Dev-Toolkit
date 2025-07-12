@@ -15,13 +15,15 @@ function CreateSnippet({
   });
   const { addSnippet } = useSnippetStore();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (
       snippetData.title === "" ||
       snippetData.code === "" ||
       snippetData.language === ""
     ) {
-      toast.error("All field are required");
+      toast.error("All fields are required");
       return;
     }
 
@@ -29,10 +31,11 @@ function CreateSnippet({
     setIsModelOpen(false);
     setsnippetData({ title: "", code: "", language: "" });
   };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-40">
-      {/* Modal Container */}
-      <div className="bg-white w-[90%] md:w-[600px] rounded-xl shadow-2xl p-6 relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-4">
+      {/* Scrollable container on small screens */}
+      <div className="bg-white w-full max-w-md rounded-xl shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={() => setIsModelOpen(false)}
@@ -42,7 +45,7 @@ function CreateSnippet({
         </button>
 
         {/* Form */}
-        <form className="flex flex-col gap-6 mt-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-4">
           <h2 className="text-2xl font-bold text-center">Create Snippet</h2>
 
           {/* Title */}
@@ -54,6 +57,7 @@ function CreateSnippet({
               type="text"
               name="title"
               className="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              value={snippetData.title}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setsnippetData({ ...snippetData, title: e.target.value })
               }
@@ -69,6 +73,7 @@ function CreateSnippet({
               name="code"
               rows={5}
               className="border px-3 py-2 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              value={snippetData.code}
               onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
                 setsnippetData({ ...snippetData, code: e.target.value })
               }
@@ -84,16 +89,17 @@ function CreateSnippet({
               type="text"
               name="language"
               className="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              value={snippetData.language}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setsnippetData({ ...snippetData, language: e.target.value })
               }
             />
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
+            type="submit"
             className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-2 rounded-md font-semibold hover:opacity-90 transition"
-            onClick={handleSubmit}
             disabled={
               snippetData.title === "" ||
               snippetData.code === "" ||
