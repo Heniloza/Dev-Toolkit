@@ -104,11 +104,11 @@ export const verifyOtpController:RequestHandler = async (req: Request, res: Resp
    
       return res
       .cookie("token", token, {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      })
+  httpOnly: true,
+  sameSite: "none", 
+  secure: true,    
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+})
       .status(200)
       .json({
         message: "OTP verified successfully",
