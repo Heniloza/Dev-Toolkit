@@ -105,8 +105,8 @@ export const verifyOtpController:RequestHandler = async (req: Request, res: Resp
       return res
       .cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .status(200)
